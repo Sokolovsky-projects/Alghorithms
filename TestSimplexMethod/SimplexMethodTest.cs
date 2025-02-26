@@ -1,6 +1,6 @@
 using Alghorithms.SimplexMethod;
 
-namespace TestSimplexMethod
+namespace TestAlghorithms
 {
     public class SimplexMethodTest
     {
