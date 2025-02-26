@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alghorithms", "Alghorithms\Alghorithms.csproj", "{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSimplexMethod", "TestSimplexMethod\TestSimplexMethod.csproj", "{971D66AE-061B-4B48-B57A-7D427B738315}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971D66AE-061B-4B48-B57A-7D427B738315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971D66AE-061B-4B48-B57A-7D427B738315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971D66AE-061B-4B48-B57A-7D427B738315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971D66AE-061B-4B48-B57A-7D427B738315}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32DCEE52-92D0-4803-886A-1D2FC3FC0077}
+	EndGlobalSection
+EndGlobal
