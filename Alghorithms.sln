@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alghorithms", "Alghorithms\Alghorithms.csproj", "{8D5C9E75-62A7-4CEF-A3AB-77E8A8AA5795}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSimplexMethod", "TestSimplexMethod\TestSimplexMethod.csproj", "{971D66AE-061B-4B48-B57A-7D427B738315}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAlghorithms", "TestSimplexMethod\TestAlghorithms.csproj", "{971D66AE-061B-4B48-B57A-7D427B738315}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

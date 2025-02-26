@@ -2,7 +2,7 @@ using Alghorithms.SimplexMethod;
 
 namespace TestSimplexMethod
 {
-    public class UnitTest1
+    public class SimplexMethodTest
     {
         [Fact]
         public void Test_Maximization_Simple_Problem()
