@@ -19,7 +19,7 @@
         <Grid Grid.Column="0" Background="Gray">
             <StackPanel Orientation="Vertical">
                 <Button Content="Симплекс метод" Command="{Binding SimplexPageCommand}"></Button>
-                <Button Content="Транспортная задача"></Button>
+                <Button Content="Транспортная задача" Command="{Binding TransportTaskPageCommand}"></Button>
                 <Button Content="Прима, Краскал"></Button>
                 <Button Content="Мин. путь Дейкстра"></Button>
                 <Button Content="Динамическое прогр."></Button>

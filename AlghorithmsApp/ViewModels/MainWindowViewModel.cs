@@ -42,6 +42,24 @@ namespace AlghorithmsApp.ViewModels
         {
             CurrentPage = new SimplexMethod();
         }
-        
+
+        private ActionCommand transportTaskPageCommand;
+        public ActionCommand TransportTaskPageCommand
+        {
+            get 
+            {
+                if(transportTaskPageCommand == null)
+                {
+                    transportTaskPageCommand = new ActionCommand(TransportPage);
+                }
+
+                return transportTaskPageCommand;
+            }
+        }
+
+        private void TransportPage()
+        {
+            CurrentPage = new TransportTaskPage();
+        }
     }
 }
