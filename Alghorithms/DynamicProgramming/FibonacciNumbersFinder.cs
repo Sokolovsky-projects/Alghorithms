@@ -26,7 +26,7 @@ namespace Alghorithms.DynamicProgramming
                 return memory[n];
             }
 
-            // находим число ряда Фибоначчи, суммма двух предыдущих чисел
+            // находим число ряда Фибоначчи, суммма двух предыдущих чисел ряда
             memory[n] = GetFibonacci(n - 1) + GetFibonacci(n - 2);
 
             return memory[n];

@@ -270,5 +270,10 @@ namespace Alghorithms.SimplexMethod
         {
             return Math.Round(Solution.GetValueOrDefault(argument, 0), 2); //округленный до 2 знаков ответ
         }
+
+        public Dictionary<string, double> GetAllSolution() 
+        {
+            return Solution;
+        }
     }
 }
