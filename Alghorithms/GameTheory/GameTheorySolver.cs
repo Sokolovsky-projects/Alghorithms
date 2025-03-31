@@ -93,21 +93,34 @@ namespace Alghorithms.GameTheory
         {
             int rows = payoffMatrixPlayer1.GetLength(0);
             int cols = payoffMatrixPlayer1.GetLength(1);
-
-            // Массив, который будет хранить индекс доминирующей стратегии для каждого игрока
             var dominantStrategies = new List<int>();
 
             for (int i = 0; i < rows; i++)
             {
                 bool isDominant = true;
+
+                // Проверяем, что стратегия i доминирует над всеми другими
                 for (int j = 0; j < rows; j++)
                 {
-                    if (i != j && payoffMatrixPlayer1[i, 0] < payoffMatrixPlayer1[j, 0])
+                    if (i == j) continue;
+
+                    bool dominatesAllColumns = true;
+                    for (int k = 0; k < cols; k++)
+                    {
+                        if (payoffMatrixPlayer1[i, k] < payoffMatrixPlayer1[j, k])
+                        {
+                            dominatesAllColumns = false;
+                            break;
+                        }
+                    }
+
+                    if (!dominatesAllColumns)
                     {
                         isDominant = false;
                         break;
                     }
                 }
+
                 if (isDominant)
                 {
                     dominantStrategies.Add(i);
@@ -131,18 +144,25 @@ namespace Alghorithms.GameTheory
             return new double[] { p1, p2 }; // возвращаем вероятности смешанной стратегии для игрока 1
         }
 
-        public double CalculateExpectedPayoffForPlayer1(double[] mixedStrategy)
+        public double CalculateExpectedPayoffForPlayer1(double[] player1MixedStrategy, double[] player2MixedStrategy = null)
         {
             int rows = payoffMatrixPlayer1.GetLength(0);
             int cols = payoffMatrixPlayer1.GetLength(1);
 
-            double expectedPayoff = 0;
+            // Если стратегия второго игрока не указана, считаем равномерное распределение
+            if (player2MixedStrategy == null)
+            {
+                player2MixedStrategy = new double[cols];
+                for (int j = 0; j < cols; j++)
+                    player2MixedStrategy[j] = 1.0 / cols;
+            }
 
+            double expectedPayoff = 0;
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    expectedPayoff += payoffMatrixPlayer1[i, j] * mixedStrategy[i];
+                    expectedPayoff += payoffMatrixPlayer1[i, j] * player1MixedStrategy[i] * player2MixedStrategy[j];
                 }
             }
 

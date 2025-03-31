@@ -98,5 +98,24 @@ namespace AlghorithmsApp.ViewModels
         {
             CurrentPage = new DynamicPage();
         }
+
+        private ActionCommand gameTheoryCommand;
+        public ActionCommand GameTheoryCommand
+        {
+            get 
+            {
+                if(gameTheoryCommand == null)
+                {
+                    gameTheoryCommand = new ActionCommand(GameTheory);
+                }
+
+                return gameTheoryCommand;
+            }
+        }
+
+        private void GameTheory()
+        {
+            CurrentPage = new GameTheoryPage();
+        }
     }
 }

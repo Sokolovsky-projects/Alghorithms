@@ -22,7 +22,7 @@
                 <Button Content="Транспортная задача" Command="{Binding TransportTaskPageCommand}"></Button>
                 <Button Content="Прима, Дейкстра" Command="{Binding PrimaCommand}"></Button>
                 <Button Content="Динамическое прогр." Command="{Binding DynamicCommand}"></Button>
-                <Button Content="Теория Игр"></Button>
+                <Button Content="Теория Игр" Command="{Binding GameTheoryCommand}"></Button>
                 <Button Content="Оценка 2-х выборок"></Button>
                 <Button Content="Оценка нескольких выборок"></Button>
                 <Button Content="Шифры замены"></Button>
