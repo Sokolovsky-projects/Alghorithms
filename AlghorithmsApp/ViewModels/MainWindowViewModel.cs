@@ -61,5 +61,42 @@ namespace AlghorithmsApp.ViewModels
         {
             CurrentPage = new TransportTaskPage();
         }
+
+        private ActionCommand primaCommand;
+        public ActionCommand PrimaCommand
+        {
+            get 
+            {
+                if (primaCommand == null)
+                {
+                    primaCommand = new ActionCommand(Prima);
+                }
+                return primaCommand;
+            }
+        }
+
+        private void Prima()
+        {
+            CurrentPage = new Prima();
+        }
+
+        private ActionCommand dynamicCommand;
+        public ActionCommand DynamicCommand
+        {
+            get
+            {
+                if(dynamicCommand == null)
+                {
+                    dynamicCommand = new ActionCommand(Dynamic);
+                }
+
+                return dynamicCommand;
+            }
+        }
+
+        private void Dynamic() 
+        {
+            CurrentPage = new DynamicPage();
+        }
     }
 }

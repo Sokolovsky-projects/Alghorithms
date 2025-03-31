@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Alghorithms.TransportTask;
 using AlghorithmsApp.Models;
+using System.Windows;
 
 namespace AlghorithmsApp.ViewModels
 {
@@ -192,50 +193,57 @@ namespace AlghorithmsApp.ViewModels
 
         private void Solve()
         {
-            double[,] costMatrix = new double[providersCount, consumersCount];
-
-            for (int i = 0; i < providersCount; i++)
+            try
             {
-                for (int j = 0; j < consumersCount; j++)
+                double[,] costMatrix = new double[providersCount, consumersCount];
+
+                for (int i = 0; i < providersCount; i++)
                 {
-                    costMatrix[i, j] = double.Parse(TextBoxDataTable[i].TextBoxDatas[j].Text);
+                    for (int j = 0; j < consumersCount; j++)
+                    {
+                        costMatrix[i, j] = double.Parse(TextBoxDataTable[i].TextBoxDatas[j].Text);
+                    }
                 }
-            }
 
-            double[] supply = new double[providersCount];
-            int k = 0;
-            foreach(TextBoxData data in providersGroup)
-            {
-                supply[k] = double.Parse(data.Text);
-                k++;
-            }
-
-            double[] demand = new double[consumersCount];
-            k = 0;
-            foreach(TextBoxData data in consumersGroup)
-            {
-                demand[k] = double.Parse(data.Text);
-                k++;
-            }
-
-            TransportTaskSolver solver = new TransportTaskSolver(costMatrix,supply , demand);
-
-            double[,] answer = solver.MinimumCostMethod();
-
-            TextBoxDataTableAnswer.Clear();
-            for (int i = 0;i < answer.GetLength(0); i++)
-            {
-                TextBoxDataGroup data = new TextBoxDataGroup();
-                for(int j = 0;j < answer.GetLength(1); j++)
+                double[] supply = new double[providersCount];
+                int k = 0;
+                foreach (TextBoxData data in providersGroup)
                 {
-                    TextBoxData text = new TextBoxData();
-                    text.Text = answer[i,j].ToString();
-                    data.TextBoxDatas.Add(text);
+                    supply[k] = double.Parse(data.Text);
+                    k++;
                 }
-                TextBoxDataTableAnswer.Add(data);
+
+                double[] demand = new double[consumersCount];
+                k = 0;
+                foreach (TextBoxData data in consumersGroup)
+                {
+                    demand[k] = double.Parse(data.Text);
+                    k++;
+                }
+
+                TransportTaskSolver solver = new TransportTaskSolver(costMatrix, supply, demand);
+
+                double[,] answer = solver.MinimumCostMethod();
+
+                TextBoxDataTableAnswer.Clear();
+                for (int i = 0; i < answer.GetLength(0); i++)
+                {
+                    TextBoxDataGroup data = new TextBoxDataGroup();
+                    for (int j = 0; j < answer.GetLength(1); j++)
+                    {
+                        TextBoxData text = new TextBoxData();
+                        text.Text = answer[i, j].ToString();
+                        data.TextBoxDatas.Add(text);
+                    }
+                    TextBoxDataTableAnswer.Add(data);
+                }
+                OnPropertyChanged(nameof(TextBoxDataTableAnswer));
+                TotalCostText = "Итоговая стоимость = " + solver.CalculateTotalCost(answer).ToString();
             }
-            OnPropertyChanged(nameof(TextBoxDataTableAnswer));
-            TotalCostText = "Итоговая стоимость = " + solver.CalculateTotalCost(answer).ToString();
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private string total;

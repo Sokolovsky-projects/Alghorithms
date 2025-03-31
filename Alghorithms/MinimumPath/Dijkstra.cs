@@ -32,9 +32,9 @@ namespace Alghorithms.MinimumPath
         public Dictionary<int, int> FindShortestPath(int start)
         {
             var distances = new Dictionary<int, int>();
-            var priorityQueue = new SortedSet<(int, int)>(); // (distance, vertex)
+            var priorityQueue = new SortedSet<(int distance, int vertex)>();
 
-            // Инициализация всех расстояний как бесконечность, кроме старта
+            // Инициализация расстояний
             foreach (var vertex in adjList.Keys)
             {
                 distances[vertex] = int.MaxValue;
@@ -48,21 +48,41 @@ namespace Alghorithms.MinimumPath
                 var (currentDist, currentVertex) = priorityQueue.Min;
                 priorityQueue.Remove(priorityQueue.Min);
 
-                // Если расстояние больше уже найденного, пропускаем
                 if (currentDist > distances[currentVertex])
                     continue;
 
-                // Для всех смежных вершин
+                // Обрабатываем все смежные вершины (исходящие ребра)
                 foreach (var edge in adjList[currentVertex])
                 {
                     int neighbor = edge.To;
                     int newDist = currentDist + edge.Weight;
 
-                    // Если нашли более короткий путь, обновляем
                     if (newDist < distances[neighbor])
                     {
+                        // Удаляем старое значение из очереди, если оно существует
+                        priorityQueue.Remove((distances[neighbor], neighbor));
                         distances[neighbor] = newDist;
                         priorityQueue.Add((newDist, neighbor));
+                    }
+                }
+
+                // Для ненаправленного графа: обрабатываем входящие ребра
+                foreach (var vertex in adjList.Keys)
+                {
+                    foreach (var edge in adjList[vertex])
+                    {
+                        if (edge.To == currentVertex)
+                        {
+                            int neighbor = vertex; // Это вершина, из которой идет ребро к currentVertex
+                            int newDist = currentDist + edge.Weight;
+
+                            if (newDist < distances[neighbor])
+                            {
+                                priorityQueue.Remove((distances[neighbor], neighbor));
+                                distances[neighbor] = newDist;
+                                priorityQueue.Add((newDist, neighbor));
+                            }
+                        }
                     }
                 }
             }
