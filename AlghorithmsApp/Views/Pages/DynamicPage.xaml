@@ -4,11 +4,29 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AlghorithmsApp.Views.Pages"
+      xmlns:viewmodel="clr-namespace:AlghorithmsApp.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DynamicPage">
-
+    
+    <Page.DataContext>
+        <viewmodel:DynamicProgrammingViewModel></viewmodel:DynamicProgrammingViewModel>
+    </Page.DataContext>
+    
     <Grid Background="AliceBlue">
-        
+        <StackPanel Margin="10">
+            <TextBlock Text="Нахождение числа ряда Фибоначи" FontSize="17" Margin="10"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Введите номер числа " Margin="10"></TextBlock>
+                <TextBox Text="{Binding FibonacciNumber}" Margin="10" Width="50"></TextBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Число фибоначи:" Margin="10"></TextBlock>
+                <TextBlock Text="{Binding FibonacciAnswer}" Width="50" Margin="10"></TextBlock>
+            </StackPanel>
+
+            <Button Content="Расчет" HorizontalAlignment="Left" Margin="10" Width="50" Command="{Binding SolveFibonacci}"></Button>
+        </StackPanel>
     </Grid>
 </Page>
