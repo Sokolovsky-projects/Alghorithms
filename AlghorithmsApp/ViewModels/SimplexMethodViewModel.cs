@@ -53,7 +53,7 @@ namespace AlghorithmsApp.ViewModels
         public string Answer
         {
             get { return answer; }
-            set 
+            set
             {
                 answer = value;
                 OnPropertyChanged(nameof(Answer));
@@ -191,6 +191,11 @@ namespace AlghorithmsApp.ViewModels
 
         private void Solve()
         {
+            c.Clear();
+            b.Clear();
+            constraintsTypes.Clear();
+
+
             try
             {
                 foreach (TextBoxData item in functionBoxes)
@@ -221,21 +226,49 @@ namespace AlghorithmsApp.ViewModels
                     }
                 }
 
-                SimplexSolver solver = new SimplexSolver(c.ToArray(), A, b.ToArray(), constraintsTypes, FDirection);
+                bool isExtrMax = true;
 
-                solver.Solve();
-
-                Dictionary<string, double> solution = solver.GetAllSolution();
-
-                Answer = string.Empty;
-                foreach (KeyValuePair<string, double> item in solution)
+                if (FDirection != "max")
                 {
-                    Answer += $"{item.Key}={Math.Round(item.Value, 2)} ";
+                    isExtrMax = false;
                 }
 
-                Answer += "F = " + solver.OptimalValue;
+                Function function = new Function(c.ToArray(), 0, isExtrMax);
+
+                Constraint[] constraints = new Constraint[constraintCount];
+
+                for (int i = 0; i < constraintCount; i++)
+                {
+                    double[] variables = new double[variablesCount];
+
+                    for (int j = 0; j < variablesCount; j++)
+                    {
+                        variables[j] = A[i, j];
+                    }
+
+                    constraints[i] = new Constraint(variables, b[i], constraintsTypes[i]);
+                }
+
+                Simplex simplex = new Simplex(function, constraints);
+
+                Answer = string.Empty;
+
+                var solution = simplex.GetResult();
+
+                Answer += $"{solution.Item2} ";
+                SimplexSnap? simplexSnap = solution.Item1.LastOrDefault();
+
+                if (simplexSnap != null) 
+                {
+                    Answer += $"F = {Math.Round(simplexSnap.fValue, 2)} ";
+
+                    for (int i = 0; i < simplexSnap.b.Length; i++) 
+                    {
+                        Answer += $"x{i + 1}={Math.Round(simplexSnap.b[i], 2)} ";
+                    }
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

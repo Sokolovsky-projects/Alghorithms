@@ -1,6 +1,6 @@
 ﻿namespace Ciphers
 {
-    abstract class Cipher : ICipher
+    public abstract class Cipher : ICipher
     {
         protected string Message { get; }
         protected string Key { get; }

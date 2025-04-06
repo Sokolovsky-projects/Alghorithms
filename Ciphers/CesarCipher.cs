@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ciphers
 {
-    class CesarCipher : Cipher
+    public class CesarCipher : Cipher
     {
         private string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
         public CesarCipher(string message, string key) : base(message, key)

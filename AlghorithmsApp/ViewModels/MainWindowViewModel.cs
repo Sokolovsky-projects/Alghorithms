@@ -18,7 +18,7 @@ namespace AlghorithmsApp.ViewModels
         public Page CurrentPage
         {
             get { return _currentPage; }
-            set 
+            set
             {
                 SetProperty(ref _currentPage, value, nameof(CurrentPage));
             }
@@ -46,9 +46,9 @@ namespace AlghorithmsApp.ViewModels
         private ActionCommand transportTaskPageCommand;
         public ActionCommand TransportTaskPageCommand
         {
-            get 
+            get
             {
-                if(transportTaskPageCommand == null)
+                if (transportTaskPageCommand == null)
                 {
                     transportTaskPageCommand = new ActionCommand(TransportPage);
                 }
@@ -65,7 +65,7 @@ namespace AlghorithmsApp.ViewModels
         private ActionCommand primaCommand;
         public ActionCommand PrimaCommand
         {
-            get 
+            get
             {
                 if (primaCommand == null)
                 {
@@ -85,7 +85,7 @@ namespace AlghorithmsApp.ViewModels
         {
             get
             {
-                if(dynamicCommand == null)
+                if (dynamicCommand == null)
                 {
                     dynamicCommand = new ActionCommand(Dynamic);
                 }
@@ -94,7 +94,7 @@ namespace AlghorithmsApp.ViewModels
             }
         }
 
-        private void Dynamic() 
+        private void Dynamic()
         {
             CurrentPage = new DynamicPage();
         }
@@ -102,9 +102,9 @@ namespace AlghorithmsApp.ViewModels
         private ActionCommand gameTheoryCommand;
         public ActionCommand GameTheoryCommand
         {
-            get 
+            get
             {
-                if(gameTheoryCommand == null)
+                if (gameTheoryCommand == null)
                 {
                     gameTheoryCommand = new ActionCommand(GameTheory);
                 }
@@ -116,6 +116,44 @@ namespace AlghorithmsApp.ViewModels
         private void GameTheory()
         {
             CurrentPage = new GameTheoryPage();
+        }
+
+        private ActionCommand permutationCipherCommand;
+        public ActionCommand PermutationCipherCommand
+        {
+            get
+            {
+                if (permutationCipherCommand == null)
+                {
+                    permutationCipherCommand = new ActionCommand(PermutationCipher);
+                }
+
+                return permutationCipherCommand;
+            }
+        }
+
+        private void PermutationCipher()
+        {
+            CurrentPage = new PermutationCiphersPage();
+        }
+
+        private ActionCommand substitutionCipherCommand;
+        public ActionCommand SubstitutionCipherCommand
+        {
+            get
+            {
+                if(substitutionCipherCommand == null)
+                {
+                    substitutionCipherCommand = new ActionCommand(SubstitutionCipher);
+                }
+
+                return substitutionCipherCommand;
+            }
+        }
+
+        private void SubstitutionCipher()
+        {
+            CurrentPage = new SubstitutionCiphersPage();
         }
     }
 }

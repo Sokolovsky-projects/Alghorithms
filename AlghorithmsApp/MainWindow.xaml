@@ -23,10 +23,10 @@
                 <Button Content="Прима, Дейкстра" Command="{Binding PrimaCommand}"></Button>
                 <Button Content="Динамическое прогр." Command="{Binding DynamicCommand}"></Button>
                 <Button Content="Теория Игр" Command="{Binding GameTheoryCommand}"></Button>
+                <Button Content="Шифры замены" Command="{Binding SubstitutionCipherCommand}"></Button>
+                <Button Content="Шифры перестановки" Command="{Binding PermutationCipherCommand}"></Button>
                 <Button Content="Оценка 2-х выборок"></Button>
                 <Button Content="Оценка нескольких выборок"></Button>
-                <Button Content="Шифры замены"></Button>
-                <Button Content="Шифры перестановки"></Button>
             </StackPanel>
         </Grid>
         <Frame Grid.Column="1" NavigationUIVisibility="Hidden" Content="{Binding CurrentPage}">

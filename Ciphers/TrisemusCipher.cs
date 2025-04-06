@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ciphers
 {
-    class TrisemusCipher : Cipher
+    public class TrisemusCipher : Cipher
     {
         private string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
         public TrisemusCipher(string message, string key) : base(message, key)
