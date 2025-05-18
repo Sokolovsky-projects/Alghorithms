@@ -24,7 +24,6 @@ namespace AlghorithmsApp.Views.Pages
         public SimplexMethod()
         {
             InitializeComponent();
-            DataContext = new SimplexMethodViewModel();
         }
     }
 }

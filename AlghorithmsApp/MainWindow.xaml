@@ -6,31 +6,47 @@
         xmlns:local="clr-namespace:AlghorithmsApp"
         xmlns:viewmodels="clr-namespace:AlghorithmsApp.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Алгоритмы" Height="450" Width="800">
     <Window.DataContext>
         <viewmodels:MainWindowViewModel></viewmodels:MainWindowViewModel>
     </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="175"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="Gray">
-            <StackPanel Orientation="Vertical">
-                <Button Content="Симплекс метод" Command="{Binding SimplexPageCommand}"></Button>
-                <Button Content="Транспортная задача" Command="{Binding TransportTaskPageCommand}"></Button>
-                <Button Content="Прима, Дейкстра" Command="{Binding PrimaCommand}"></Button>
-                <Button Content="Динамическое прогр." Command="{Binding DynamicCommand}"></Button>
-                <Button Content="Теория Игр" Command="{Binding GameTheoryCommand}"></Button>
-                <Button Content="Шифры замены" Command="{Binding SubstitutionCipherCommand}"></Button>
-                <Button Content="Шифры перестановки" Command="{Binding PermutationCipherCommand}"></Button>
-                <Button Content="Оценка 2-х выборок"></Button>
-                <Button Content="Оценка нескольких выборок"></Button>
-            </StackPanel>
+        <Grid Grid.Column="0">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                    <GradientStop Color="#FF0A221A" Offset="0.321"/>
+                    <GradientStop Color="#FF33A17E" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Симплекс метод" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding SimplexPageCommand}"></Button>
+                    <Button Content="Транспортная задача" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding TransportTaskPageCommand}"></Button>
+                    <Button Content="Прима, Дейкстра" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding PrimaCommand}"></Button>
+                    <Button Content="Динамическое прогр." Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding DynamicCommand}"></Button>
+                    <Button Content="Теория Игр" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding GameTheoryCommand}"></Button>
+                    <Button Content="Шифры замены" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding SubstitutionCipherCommand}"></Button>
+                    <Button Content="Шифры перестановки" Template="{StaticResource Btn_LeftMenu_Template}" Command="{Binding PermutationCipherCommand}"></Button>
+                    <Button Content="Оценка 2-х выборок" Template="{StaticResource Btn_LeftMenu_Template}"></Button>
+                    <Button Content="Оценка нескольких выборок" Template="{StaticResource Btn_LeftMenu_Template}"></Button>
+                </StackPanel>
+            </ScrollViewer>
+            
         </Grid>
         <Frame Grid.Column="1" NavigationUIVisibility="Hidden" Content="{Binding CurrentPage}">
-            
+
         </Frame>
     </Grid>
 </Window>

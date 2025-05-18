@@ -19,29 +19,6 @@ namespace Alghorithms.TransportTask
             this.demand = demand;
         }
 
-        // Метод северо-западного угла
-        // На данный момент не работает
-        //public double[,] NorthWestCornerMethod()
-        //{
-        //    int rows = supply.Length;
-        //    int cols = demand.Length;
-        //    double[,] result = new double[rows, cols];
-        //    int i = 0, j = 0;
-
-        //    while (i < rows && j < cols)
-        //    {
-        //        double allocation = Math.Min(supply[i], demand[j]);
-        //        result[i, j] = allocation;
-        //        supply[i] -= allocation;
-        //        demand[j] -= allocation;
-
-        //        if (supply[i] == 0) i++;
-        //        if (demand[j] == 0) j++;
-        //    }
-
-        //    return result;
-        //}
-
         // Метод минимальной стоимости
         public double[,] MinimumCostMethod()
         {

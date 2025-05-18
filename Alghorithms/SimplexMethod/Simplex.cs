@@ -10,22 +10,31 @@ namespace Alghorithms.SimplexMethod
 {
     public enum SimplexResult { Unbounded, Found, NotYetFound }
 
+    /// <summary>
+    /// Класс для решения задач линейного программирования симплекс-методом 
+    /// с поддержкой искусственных переменных (M-метод)
+    /// </summary>
     public class Simplex
     {
+        // Основные параметры задачи
+        Function function;          // Целевая функция (в канонической форме)
+        double[] functionVariables; // Коэффициенты целевой функции
+        double[][] matrix;          // Матрица коэффициентов ограничений
+        double[] b;                 // Правые части ограничений
+        bool[] m;                   // Флаги искусственных переменных
+        double[] M;                 // Вектор M для искусственных переменных
+        double[] F;                 // Вектор коэффициентов целевой функции
+        int[] C;                    // Индексы базисных переменных
+        bool isMDone = false;       // Флаг завершения работы с M-коэффициентами
 
-        Function function;
-
-        double[] functionVariables;
-        double[][] matrix;
-        double[] b;
-        bool[] m;
-        double[] M;
-        double[] F;
-        int[] C;
-        bool isMDone = false;
-
+        /// <summary>
+        /// Конструктор класса
+        /// </summary>
+        /// <param name="function">Целевая функция</param>
+        /// <param name="constraints">Ограничения задачи</param>
         public Simplex(Function function, Constraint[] constraints)
         {
+            // Приведение задачи минимизации к максимизации
             if (function.isExtrMax)
             {
                 this.function = function;
@@ -35,26 +44,39 @@ namespace Alghorithms.SimplexMethod
                 this.function = Canonize(function);
             }
 
+            // Построение матрицы ограничений
             getMatrix(constraints);
+
+            // Инициализация коэффициентов целевой функции
             getFunctionArray();
+
+            // Первоначальный расчет M и F векторов
             getMandF();
 
+            // Корректировка F вектора
             for (int i = 0; i < F.Length; i++)
             {
                 F[i] = -functionVariables[i];
             }
-
         }
 
+        /// <summary>
+        /// Основной метод для получения решения
+        /// </summary>
+        /// <returns>Результат решения и история итераций</returns>
         public Tuple<List<SimplexSnap>, SimplexResult> GetResult()
         {
             List<SimplexSnap> snaps = new List<SimplexSnap>();
             snaps.Add(new SimplexSnap(b, matrix, M, F, C, functionVariables, isMDone, m));
 
+            // Итерационный процесс решения
             SimplexIndexResult result = nextStep();
             int i = 0;
+
+            // Ограничение на 100 итераций для предотвращения зацикливания
             while (result.result == SimplexResult.NotYetFound && i < 100)
             {
+                // Пересчет таблицы
                 calculateSimplexTableau(result.index);
                 snaps.Add(new SimplexSnap(b, matrix, M, F, C, functionVariables, isMDone, m));
                 result = nextStep();
@@ -64,55 +86,51 @@ namespace Alghorithms.SimplexMethod
             return new Tuple<List<SimplexSnap>, SimplexResult>(snaps, result.result);
         }
 
+        /// <summary>
+        /// Пересчет симплекс-таблицы после выбора разрешающего элемента
+        /// </summary>
+        /// <param name="Xij">Координаты разрешающего элемента (строка, столбец)</param>
         void calculateSimplexTableau(Tuple<int, int> Xij)
         {
             double[][] newMatrix = new double[matrix.Length][];
+            C[Xij.Item2] = Xij.Item1; // Обновление базисных переменных
 
-            C[Xij.Item2] = Xij.Item1;
-
+            // Расчет новой строки для разрешающего столбца
             double[] newJRow = new double[matrix.Length];
-
             for (int i = 0; i < matrix.Length; i++)
             {
                 newJRow[i] = matrix[i][Xij.Item2] / matrix[Xij.Item1][Xij.Item2];
             }
 
+            // Пересчет правой части
             double[] newB = new double[b.Length];
-
             for (int i = 0; i < b.Length; i++)
             {
-                if (i == Xij.Item2)
-                {
-                    newB[i] = b[i] / matrix[Xij.Item1][Xij.Item2];
-                }
-                else
-                {
-                    newB[i] = b[i] - b[Xij.Item2] / matrix[Xij.Item1][Xij.Item2] * matrix[Xij.Item1][i];
-                }
+                newB[i] = (i == Xij.Item2)
+                    ? b[i] / matrix[Xij.Item1][Xij.Item2]
+                    : b[i] - b[Xij.Item2] / matrix[Xij.Item1][Xij.Item2] * matrix[Xij.Item1][i];
             }
-
             b = newB;
 
+            // Пересчет всей матрицы коэффициентов
             for (int i = 0; i < matrix.Length; i++)
             {
                 newMatrix[i] = new double[C.Length];
                 for (int j = 0; j < C.Length; j++)
                 {
-                    if (j == Xij.Item2)
-                    {
-                        newMatrix[i][j] = newJRow[i];
-                    }
-                    else
-                    {
-                        newMatrix[i][j] = matrix[i][j] - newJRow[i] * matrix[Xij.Item1][j];
-                    }
+                    newMatrix[i][j] = (j == Xij.Item2)
+                        ? newJRow[i]
+                        : matrix[i][j] - newJRow[i] * matrix[Xij.Item1][j];
                 }
             }
 
             matrix = newMatrix;
-            getMandF();
+            getMandF(); // Обновление M и F
         }
 
+        /// <summary>
+        /// Расчет векторов M (для искусственных переменных) и F (целевая функция)
+        /// </summary>
         void getMandF()
         {
             M = new double[matrix.Length];
@@ -122,66 +140,64 @@ namespace Alghorithms.SimplexMethod
             {
                 double sumF = 0;
                 double sumM = 0;
+
+                // Суммирование коэффициентов
                 for (int j = 0; j < matrix.First().Length; j++)
                 {
-                    if (m[C[j]])
+                    if (m[C[j]]) // Для искусственных переменных
                     {
                         sumM -= matrix[i][j];
                     }
-                    else
+                    else // Для обычных переменных
                     {
                         sumF += functionVariables[C[j]] * matrix[i][j];
                     }
                 }
+
                 M[i] = m[i] ? sumM + 1 : sumM;
                 F[i] = sumF - functionVariables[i];
             }
         }
 
+        /// <summary>
+        /// Определение следующего шага алгоритма
+        /// </summary>
+        /// <returns>Результат с координатами разрешающего элемента и статусом</returns>
         SimplexIndexResult nextStep()
         {
-
+            // работа с искусственными переменными
             int columnM = getIndexOfNegativeElementWithMaxAbsoluteValue(M);
 
             if (isMDone || columnM == -1)
             {
-                //M doesn't have negative values
                 isMDone = true;
+
+                // работа с целевой функцией
                 int columnF = getIndexOfNegativeElementWithMaxAbsoluteValue(F);
 
-                if (columnF != -1) //Has at least 1 negative value
+                if (columnF != -1)
                 {
                     int row = getIndexOfMinimalRatio(matrix[columnF], b);
-
-                    if (row != -1)
-                    {
-                        return new SimplexIndexResult(new Tuple<int, int>(columnF, row), SimplexResult.NotYetFound);
-                    }
-                    else
-                    {
-                        return new SimplexIndexResult(null, SimplexResult.Unbounded);
-                    }
+                    return (row != -1)
+                        ? new SimplexIndexResult(new Tuple<int, int>(columnF, row), SimplexResult.NotYetFound)
+                        : new SimplexIndexResult(null, SimplexResult.Unbounded);
                 }
                 else
                 {
-                    return new SimplexIndexResult(null, SimplexResult.Found);
+                    return new SimplexIndexResult(null, SimplexResult.Found); // Решение найдено
                 }
-
             }
             else
             {
                 int row = getIndexOfMinimalRatio(matrix[columnM], b);
-
-                if (row != -1)
-                {
-                    return new SimplexIndexResult(new Tuple<int, int>(columnM, row), SimplexResult.NotYetFound);
-                }
-                else
-                {
-                    return new SimplexIndexResult(null, SimplexResult.Unbounded);
-                }
+                return (row != -1)
+                    ? new SimplexIndexResult(new Tuple<int, int>(columnM, row), SimplexResult.NotYetFound)
+                    : new SimplexIndexResult(null, SimplexResult.Unbounded);
             }
         }
+
+        // Далее идут вспомогательные методы
+
 
         int getIndexOfNegativeElementWithMaxAbsoluteValue(double[] array)
         {
@@ -368,8 +384,6 @@ namespace Alghorithms.SimplexMethod
             int ci = 0;
             for (int i = 0; i < newMatrix.Length; i++)
             {
-
-
                 bool hasOnlyNulls = true;
                 bool hasOne = false;
                 Tuple<int, int> onePosition = new Tuple<int, int>(0, 0);
@@ -405,7 +419,6 @@ namespace Alghorithms.SimplexMethod
                     C[ci] = onePosition.Item1;
                     ci++;
                 }
-
             }
 
             m = new bool[newMatrix.Length];
