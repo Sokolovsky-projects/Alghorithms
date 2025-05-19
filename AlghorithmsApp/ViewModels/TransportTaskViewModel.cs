@@ -223,7 +223,7 @@ namespace AlghorithmsApp.ViewModels
 
                 TransportTaskSolver solver = new TransportTaskSolver(costMatrix, supply, demand);
 
-                double[,] answer = solver.MinimumCostMethod();
+                double[,] answer = solver.ResultMatrix;
 
                 TextBoxDataTableAnswer.Clear();
                 for (int i = 0; i < answer.GetLength(0); i++)

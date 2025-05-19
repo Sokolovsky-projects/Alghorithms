@@ -12,11 +12,23 @@ namespace Alghorithms.TransportTask
         private double[] supply; // Массив поставок
         private double[] demand; // Массив спроса
 
+        private double[,] resultMatrix;
+        public double[,] ResultMatrix
+        {
+            get
+            {
+                return resultMatrix;
+            }
+        }
+
         public TransportTaskSolver(double[,] costMatrix, double[] supply, double[] demand)
         {
             this.costMatrix = costMatrix;
             this.supply = supply;
             this.demand = demand;
+
+            MinimumCostMethod();
+            NorthwestCornerMethod();
         }
 
         // Метод минимальной стоимости
@@ -59,6 +71,36 @@ namespace Alghorithms.TransportTask
 
                 if (supply[minRow] == 0) costCopy[minRow, minCol] = double.MaxValue; // Закрываем строку
                 if (demand[minCol] == 0) costCopy[minRow, minCol] = double.MaxValue; // Закрываем колонку
+            }
+
+            return result;
+        }
+
+        public double[,] NorthwestCornerMethod()
+        {
+            int rows = supply.Length;
+            int cols = demand.Length;
+            double[,] result = new double[rows, cols];
+
+            double[] supplyCopy = (double[])supply.Clone();
+            double[] demandCopy = (double[])demand.Clone();
+
+            int i = 0, j = 0;
+
+            while (i < rows && j < cols)
+            {
+                double allocation = Math.Min(supplyCopy[i], demandCopy[j]);
+                result[i, j] = allocation;
+                supplyCopy[i] -= allocation;
+                demandCopy[j] -= allocation;
+
+                if (supplyCopy[i] == 0 && i < rows - 1) i++;
+                else if (demandCopy[j] == 0 && j < cols - 1) j++;
+                else if (supplyCopy[i] == 0 && demandCopy[j] == 0)
+                {
+                    if (i < rows - 1) i++;
+                    if (j < cols - 1) j++;
+                }
             }
 
             return result;
